@@ -59,12 +59,6 @@ import org.wso2.esb.integration.common.clients.template.EndpointTemplateAdminSer
 import org.wso2.esb.integration.common.clients.template.SequenceTemplateAdminServiceClient;
 import org.wso2.esb.integration.common.utils.common.TestConfigurationProvider;
 
-import javax.activation.DataHandler;
-import javax.xml.bind.DatatypeConverter;
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -74,7 +68,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,6 +78,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
+import javax.activation.DataHandler;
+import javax.xml.bind.DatatypeConverter;
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 public class ESBTestCaseUtils {
 
@@ -100,6 +102,9 @@ public class ESBTestCaseUtils {
 	private static final String NAME = "name";
 	private static final String TASK = "task";
 	private static final String INBOUND_ENDPOINT = "inboundEndpoint";
+
+	static File duplicatesList = new File(
+			"/home/nirothipan/Desktop/IntegrationRepos/synapseConfigs/duplicates.txt");
 
 
 	/**
@@ -205,6 +210,44 @@ public class ESBTestCaseUtils {
 		return documentElement;
 	}
 
+	private void writeSynapseConfigToFile(String folderName, String fileName, OMElement content) throws Exception {
+
+		File directory = new File("/home/nirothipan/Desktop/IntegrationRepos/synapseConfigs/" + folderName);
+
+		if (!directory.exists()) {
+			directory.mkdir();
+		}
+
+		File configFile = new File(
+				"/home/nirothipan/Desktop/IntegrationRepos/synapseConfigs/" + folderName + "/" + fileName + ".xml");
+
+		if (configFile.exists()) {
+
+			String duplicateClassName = Thread.currentThread().getStackTrace()[5].getClassName();
+
+			if ( duplicateClassName.contains("NativeMethodAccessorImpl")){
+				duplicateClassName = Thread.currentThread().getStackTrace()[4].getClassName();
+			}
+
+			duplicatesList.createNewFile();
+			duplicatesList.setWritable(true);
+
+			fileName = fileName + "_duplicate_" + System.currentTimeMillis();
+
+			Files.write(Paths.get(duplicatesList.getPath()),
+					(duplicateClassName + "        " + fileName + " \n").getBytes(), StandardOpenOption.APPEND);
+
+			configFile = new File(
+					"/home/nirothipan/Desktop/IntegrationRepos/synapseConfigs/" + folderName + "/" + fileName + ".xml");
+		}
+
+		configFile.createNewFile();
+
+		configFile.setWritable(true);
+
+		java.nio.file.Files.write(Paths.get(configFile.getPath()), content.toString().getBytes());
+	}
+
     /**
      * load synapse configuration from OMElement and fail if a configuration exists with the same name.
      *
@@ -236,6 +279,7 @@ public class ESBTestCaseUtils {
         while (localEntries.hasNext()) {
             OMElement localEntry = localEntries.next();
             String le = localEntry.getAttributeValue(new QName(KEY));
+            writeSynapseConfigToFile(LOCAL_ENTRY, le , localEntry);
             if (ArrayUtils.contains(localEntryAdminServiceClient.getEntryNames(), le)) {
                 Assert.fail("Localentry already exist " + le + ". Use different name");
             }
@@ -248,6 +292,7 @@ public class ESBTestCaseUtils {
         while (endpoints.hasNext()) {
             OMElement endpoint = endpoints.next();
             String ep = endpoint.getAttributeValue(new QName(NAME));
+            writeSynapseConfigToFile(ENDPOINT,ep , endpoint);
             if (ArrayUtils.contains(endPointAdminClient.getEndpointNames(), ep)) {
                 Assert.fail("Endpoint already exist " + ep + ". Use different name");
             }
@@ -260,23 +305,29 @@ public class ESBTestCaseUtils {
         while (sequences.hasNext()) {
             OMElement sequence = sequences.next();
             String sqn = sequence.getAttributeValue(new QName(NAME));
-            boolean isSequenceExist = ArrayUtils.contains(sequenceAdminClient.getSequences(), sqn);
-            if (("main".equalsIgnoreCase(sqn) || "fault".equalsIgnoreCase(sqn)) && isSequenceExist) {
-                sequenceAdminClient.updateSequence(sequence);
-            } else {
-                if (isSequenceExist) {
-                    Assert.fail("Sequence already exist " + sqn + ". Use different name");
-                }
-                sequenceAdminClient.addSequence(sequence);
-                Assert.assertTrue(isSequenceDeployed(backendURL, sessionCookie, sqn), " Sequence deployment failed");
-            }
-            log.info(sqn + " Sequence Uploaded");
+	        boolean isSequenceExist = ArrayUtils.contains(sequenceAdminClient.getSequences(), sqn);
+	        if ("main".equalsIgnoreCase(sqn) && isSequenceExist) {
+		        writeSynapseConfigToFile("main", sqn , sequence);
+		        sequenceAdminClient.updateSequence(sequence);
+	        } else if ("fault".equalsIgnoreCase(sqn) && isSequenceExist) {
+		        writeSynapseConfigToFile("fault", sqn , sequence);
+		        sequenceAdminClient.updateSequence(sequence);
+	        } else {
+		        writeSynapseConfigToFile(SEQUENCE, sqn , sequence);
+		        if (isSequenceExist) {
+			        Assert.fail("Sequence already exist " + sqn + ". Use different name");
+		        }
+		        sequenceAdminClient.addSequence(sequence);
+		        Assert.assertTrue(isSequenceDeployed(backendURL, sessionCookie, sqn), " Sequence deployment failed");
+	        }
+	        log.info(sqn + " Sequence Uploaded");
         }
 
         Iterator<OMElement> proxies = synapseConfig.getChildrenWithLocalName(PROXY);
         while (proxies.hasNext()) {
             OMElement proxy = proxies.next();
             String proxyName = proxy.getAttributeValue(new QName(NAME));
+            writeSynapseConfigToFile(PROXY,proxyName , proxy);
             if (adminServiceService.isServiceExists(proxyName)) {
                 Assert.fail("Proxy service already exist " + proxyName + ". Use different name");
             }
@@ -289,6 +340,7 @@ public class ESBTestCaseUtils {
         while (messageStores.hasNext()) {
             OMElement messageStore = messageStores.next();
             String mStore = messageStore.getAttributeValue(new QName(NAME));
+            writeSynapseConfigToFile(MESSAGE_STORE, mStore , messageStore);
             if (ArrayUtils.contains(messageStoreAdminClient.getMessageStores(), mStore)) {
                 Assert.fail("Message Store already exist " + mStore + ". Use different name");
             }
@@ -302,6 +354,7 @@ public class ESBTestCaseUtils {
         while (messageProcessors.hasNext()) {
             OMElement messageProcessor = messageProcessors.next();
             String mProcessor = messageProcessor.getAttributeValue(new QName(NAME));
+            writeSynapseConfigToFile(MESSAGE_PROCESSOR, mProcessor , messageProcessor);
             if (ArrayUtils.contains(messageProcessorClient.getMessageProcessorNames(), mProcessor)) {
                 Assert.fail("Message Processor already exist " + mProcessor + ". Use different name");
             }
@@ -317,6 +370,7 @@ public class ESBTestCaseUtils {
         while (templates.hasNext()) {
             OMElement template = templates.next();
             String templateName = template.getAttributeValue(new QName(NAME));
+            writeSynapseConfigToFile(TEMPLATE,templateName,template);
             if (template.getFirstChildWithName(new QName(template.getNamespace().getNamespaceURI(), SEQUENCE)) != null) {
                 if (ArrayUtils.contains(sequenceTemplateAdminServiceClient.getSequenceTemplates(), templateName)) {
                     Assert.fail("Sequence Template already exist " + templateName + ". Use different name");
@@ -344,6 +398,7 @@ public class ESBTestCaseUtils {
         while (apiElements.hasNext()) {
             OMElement api = apiElements.next();
             String apiName = api.getAttributeValue(new QName(NAME));
+            writeSynapseConfigToFile(API,apiName,api);
             if (ArrayUtils.contains(apiAdminClient.getApiNames(), apiName)) {
                 Assert.fail("API already exist " + apiName + ". Use different name");
             }
@@ -356,6 +411,7 @@ public class ESBTestCaseUtils {
         while (priorityExecutorList.hasNext()) {
             OMElement executor = priorityExecutorList.next();
             String executorName = executor.getAttributeValue(new QName(NAME));
+            writeSynapseConfigToFile(PRIORITY_EXECUTOR,executorName,executor);
             if (ArrayUtils.contains(priorityMediationAdminClient.getExecutorList(), executorName)) {
                 Assert.fail("Priority Executor already exist " + executorName + ". Use different name");
             }
@@ -369,6 +425,7 @@ public class ESBTestCaseUtils {
         while (taskList.hasNext()) {
             OMElement task = taskList.next();
             String taskName = task.getAttributeValue(new QName(NAME));
+            writeSynapseConfigToFile(TASK,taskName,task);
             if (taskAdminClient.getScheduleTaskList().contains(taskName)) {
                 taskAdminClient.updateTask(task);
                 continue;
@@ -382,6 +439,7 @@ public class ESBTestCaseUtils {
         while (inboundEndpoints.hasNext()) {
             OMElement inboundEndpoint = inboundEndpoints.next();
             String inboundEP = inboundEndpoint.getAttributeValue(new QName(NAME));
+            writeSynapseConfigToFile(INBOUND_ENDPOINT,inboundEP,inboundEndpoint);
             if (ArrayUtils.contains(inboundAdminClient.getAllInboundEndpointNames(), inboundEP)) {
                 Assert.fail("Inbound Endpoint already exist " + inboundEP + ". Use different name");
             }
