@@ -22,6 +22,7 @@ import org.apache.axiom.om.OMElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.wso2.carbon.esb.HackySynapseServiceNameSetter;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 
 import static org.testng.Assert.assertNotNull;
@@ -43,6 +44,7 @@ public class CallMediatorBlockingAPITestCase extends ESBIntegrationTest {
     @Test(groups = { "wso2.esb" },
           description = "Test invoking dynamic endpoint with blocking call")
     public void callMediatorBlockingAPITest() throws Exception {
+        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName());
         OMElement response = axis2Client
                 .sendSimpleStockQuoteRequest(getApiInvocationURL("testBlockingApi"), null, "WSO2");
         assertNotNull(response, "Empty response received");

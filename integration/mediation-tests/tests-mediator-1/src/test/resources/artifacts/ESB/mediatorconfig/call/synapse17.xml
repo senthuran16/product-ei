@@ -26,6 +26,10 @@ WARN EndpointContext Endpoint : EP2 will be marked SUSPENDED as it failed
                     <property name="STATE" value="IN SEQ S1"/>
                 </log>
                 <sequence key="SEQ1"/>
+
+
+
+
                 <log level="custom">
                     <property name="STATE" value="IN SEQ S2"/>
                 </log>

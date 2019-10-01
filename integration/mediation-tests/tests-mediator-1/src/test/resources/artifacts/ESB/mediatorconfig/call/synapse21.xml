@@ -25,7 +25,7 @@ STATE = OUTSEQ S3
     <proxy name="TestCallProxy"
            transports="https http"
            startOnLoad="true"
-           trace="disable">
+           trace="enable">
         <description/>
         <target>
             <inSequence>

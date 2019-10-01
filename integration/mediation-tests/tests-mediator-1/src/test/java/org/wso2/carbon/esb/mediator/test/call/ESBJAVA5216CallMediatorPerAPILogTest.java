@@ -24,6 +24,7 @@ import org.testng.annotations.Test;
 import org.wso2.carbon.automation.test.utils.http.client.HttpRequestUtil;
 import org.wso2.carbon.automation.test.utils.http.client.HttpResponse;
 import org.wso2.carbon.base.CarbonBaseUtils;
+import org.wso2.carbon.esb.HackySynapseServiceNameSetter;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 import org.wso2.esb.integration.common.utils.common.FileManager;
 
@@ -45,6 +46,7 @@ public class ESBJAVA5216CallMediatorPerAPILogTest extends ESBIntegrationTest {
 
     @Test(groups = "wso2.esb", description = "Test PerAPI log print after call mediator")
     public void perAPILogPrintTest() throws Exception {
+        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName());
         String logFileLocation = CarbonBaseUtils.getCarbonHome() + File.separator + "repository" + File.separator +
                 "logs" + File.separator + "api" + File.separator + "test" + File.separator + "LogPrint.log";
         HttpResponse httpResponse = HttpRequestUtil.doPost(new URL(getApiInvocationURL("logprint")), "");

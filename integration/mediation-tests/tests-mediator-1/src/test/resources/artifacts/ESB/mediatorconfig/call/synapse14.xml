@@ -32,6 +32,9 @@ STATE = INSEQ S2
                     <property name="STATE" value="INSEQ S1"/>
                 </log>
                 <sequence key="SEQ1"/>
+
+
+
                 <log level="custom">
                     <property name="STATE" value="INSEQ S2"/>
                 </log>

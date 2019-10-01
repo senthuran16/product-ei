@@ -22,6 +22,7 @@ import org.apache.axis2.AxisFault;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.wso2.carbon.esb.HackySynapseServiceNameSetter;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 
 import java.io.File;
@@ -43,6 +44,7 @@ public class CallMediatorBlockingIndirectEndpointTestCase extends ESBIntegration
     @Test(groups = { "wso2.esb" },
           description = "Call the indirect endpoint with blocking external calls")
     public void callMediatorBlockingIndirectEndpointTest() throws AxisFault {
+        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName());
         OMElement response = axis2Client
                 .sendSimpleStockQuoteRequest(getProxyServiceURLHttp("callMediatorBlockingDirectEndpointProxy"), null, "WSO2");
         boolean responseContainsWSO2 = response.getFirstElement().toString().contains("WSO2");

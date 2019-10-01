@@ -28,11 +28,11 @@ STATE = OUT SEQ S3
         <description/>
         <target inSequence="inSequence" outSequence="outSequence"/>
     </proxy>
-    
+
     <endpoint name="EP">
         <address uri="http://localhost:9000/services/SimpleStockQuoteService"/>
     </endpoint>
-    
+
     <sequence name="inSequence">
         <log level="custom">
             <property name="STATE" value="IN SEQ S1"/>
@@ -56,7 +56,7 @@ STATE = OUT SEQ S3
             <endpoint key="EP"/>
         </send>
     </sequence>
-    
+
     <sequence name="outSequence">
         <log level="custom">
             <property name="STATE" value="OUT SEQ S1"/>
@@ -84,7 +84,7 @@ STATE = OUT SEQ S3
         </log>
         <send/>
     </sequence>
-    
+
     <sequence name="SEQ3">
         <log level="custom">
             <property name="STATE" value="SEQ3 S1"/>
@@ -107,7 +107,7 @@ STATE = OUT SEQ S3
             <property name="STATE" value="SEQ3 S2"/>
         </log>
     </sequence>
-    
+
     <sequence name="SEQ1">
         <log level="custom">
             <property name="STATE" value="SEQ1 S1"/>
@@ -134,7 +134,7 @@ STATE = OUT SEQ S3
             <property name="STATE" value="SEQ1 S3"/>
         </log>
     </sequence>
-    
+
     <sequence name="SEQ2">
         <log level="custom">
             <property name="STATE" value="SEQ2 S1"/>
@@ -146,5 +146,5 @@ STATE = OUT SEQ S3
             <property name="STATE" value="SEQ2 S2"/>
         </log>
     </sequence>
-    
+
 </definitions>

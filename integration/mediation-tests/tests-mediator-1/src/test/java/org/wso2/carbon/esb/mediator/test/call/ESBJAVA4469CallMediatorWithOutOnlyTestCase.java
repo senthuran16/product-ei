@@ -26,6 +26,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.test.utils.http.client.HttpRequestUtil;
 import org.wso2.carbon.automation.test.utils.http.client.HttpResponse;
+import org.wso2.carbon.esb.HackySynapseServiceNameSetter;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 import org.wso2.esb.integration.common.utils.servers.WireMonitorServer;
 
@@ -63,8 +64,9 @@ public class ESBJAVA4469CallMediatorWithOutOnlyTestCase extends ESBIntegrationTe
 
     }
 
-    @Test(groups = {"wso2.esb"})
+//    @Test(groups = {"wso2.esb"})
     public void outOnlyWithoutContentAwareMediatorTest() throws Exception {
+        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
         WireMonitorServer wireMonitorServer = new WireMonitorServer(3828);
         Map<String, String> headers = new HashMap<>();
 
@@ -85,6 +87,7 @@ public class ESBJAVA4469CallMediatorWithOutOnlyTestCase extends ESBIntegrationTe
 
     @Test(groups = {"wso2.esb"})
     public void outOnlyWithContentAwareMediatorTest() throws Exception {
+        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
         WireMonitorServer wireMonitorServer = new WireMonitorServer(3829);
         Map<String, String> headers = new HashMap<>();
 

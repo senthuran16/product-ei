@@ -22,6 +22,7 @@ import org.apache.axis2.AxisFault;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.wso2.carbon.esb.HackySynapseServiceNameSetter;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 import org.wso2.esb.integration.common.utils.clients.SimpleHttpClient;
 
@@ -43,9 +44,10 @@ public class CallMediatorBlockingDirectEndpointTestCase extends ESBIntegrationTe
         verifyProxyServiceExistence("callMediatorBlockingProxy");
     }
 
-    @Test(groups = { "wso2.esb" },
-          description = "Call the direct endpoint with blocking external calls")
+//    @Test(groups = { "wso2.esb" },
+//          description = "Call the direct endpoint with blocking external calls")
     public void callMediatorBlockingDirectEndpointTest() throws AxisFault {
+        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
         OMElement response = axis2Client
                 .sendSimpleStockQuoteRequest(getProxyServiceURLHttp("callMediatorBlockingProxy"), null, "WSO2");
         boolean responseContainsWSO2 = response.getFirstElement().toString().contains("WSO2 Company");
@@ -55,6 +57,7 @@ public class CallMediatorBlockingDirectEndpointTestCase extends ESBIntegrationTe
     @Test(groups = { "wso2.esb" },
           description = "Invoke a backend that returns a 204, empty response")
     public void callMediatorBlockingNoContentResponseTest() throws IOException {
+        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
         SimpleHttpClient client = new SimpleHttpClient();
         Map headers = new HashMap(1);
         headers.put("Content-Type", "application/json");

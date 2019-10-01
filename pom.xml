@@ -1473,6 +1473,14 @@
                 <artifactId>javax.jms-api</artifactId>
                 <version>2.0.1</version>
             </dependency>
+
+
+            <!-- Jaeger Tracing Client -->
+            <dependency>
+                <groupId>org.wso2.orbit.io.jaeger</groupId>
+                <artifactId>jaegerclient</artifactId>
+                <version>0.32.0.wso2v2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -1549,7 +1557,7 @@
         <axiom.wso2.version>1.2.11.wso2v13</axiom.wso2.version>
 
         <!-- Synapse -->
-        <synapse.version>2.1.7-wso2v111</synapse.version>
+        <synapse.version>2.1.7-wso2v129-SNAPSHOT</synapse.version>
 
         <!-- Axis2 Transport -->
         <axis2.transport.version>2.0.0-wso2v34</axis2.transport.version>
@@ -1558,7 +1566,7 @@
         <org.apache.httpcomponents.wso2.version>4.3.6.wso2v2</org.apache.httpcomponents.wso2.version>
 
         <!-- Carbon mediation version -->
-        <carbon.mediation.version>4.6.150</carbon.mediation.version>
+        <carbon.mediation.version>4.7.21-SNAPSHOT</carbon.mediation.version>
 
         <!-- Carbon kernel version-->
         <carbon.kernel.version>4.4.40</carbon.kernel.version>

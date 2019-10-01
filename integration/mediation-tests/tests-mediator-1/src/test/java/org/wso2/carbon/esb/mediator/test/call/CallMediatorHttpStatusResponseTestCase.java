@@ -21,6 +21,7 @@ package org.wso2.carbon.esb.mediator.test.call;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.wso2.carbon.esb.HackySynapseServiceNameSetter;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 
 import java.io.File;
@@ -50,53 +51,56 @@ public class CallMediatorHttpStatusResponseTestCase extends ESBIntegrationTest {
     @Test(groups = {"wso2.esb"},
             description = "Test invoking accepted http status endpoint with blocking call", enabled = true)
     public void testAcceptedHttpStatusEndpoint() throws Exception {
+        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
         URL endpoint = new URL(getProxyServiceURLHttp("AcceptedEndpointProxy"));
         executeAndAssert(endpoint, 202, "Accepted");
     }
-
-
-    @Test(groups = {"wso2.esb"},
-            description = "Test invoking bad request http status endpoint with blocking call", enabled = true)
-    public void testBadRequestHttpStatusEndpoint() throws Exception {
-        URL endpoint = new URL(getProxyServiceURLHttp("BadRequestEndpointProxy"));
-        executeAndAssert(endpoint, 400, "Bad_Request");
-    }
-
-    @Test(groups = {"wso2.esb"},
-            description = "Test invoking unauthorized http status endpoint with blocking call", enabled = true)
-    public void testUnauthorizedHttpStatusEndpoint() throws Exception {
-        URL endpoint = new URL(getProxyServiceURLHttp("UnauthorizedEndpointProxy"));
-        executeAndAssert(endpoint, 401, "Unauthorized");
-    }
-
-    @Test(groups = {"wso2.esb"},
-            description = "Test invoking forbidden http status endpoint with blocking call", enabled = true)
-    public void testForbiddenHttpStatusEndpoint() throws Exception {
-        URL endpoint = new URL(getProxyServiceURLHttp("ForbiddenEndpointProxy"));
-        executeAndAssert(endpoint, 403, "Forbidden");
-    }
-
-    @Test(groups = {"wso2.esb"},
-            description = "Test invoking not found http status endpoint with blocking call", enabled = true)
-    public void testNotFoundHttpStatusEndpoint() throws Exception {
-        URL endpoint = new URL(getProxyServiceURLHttp("NotFoundEndpointProxy"));
-        executeAndAssert(endpoint, 404, "Not_Found");
-    }
-
-    @Test(groups = {"wso2.esb"},
-            description = "Test invoking conflict http status endpoint with blocking call", enabled = true)
-    public void testConflictHttpStatusEndpoint() throws Exception {
-        URL endpoint = new URL(getProxyServiceURLHttp("ConflictEndpointProxy"));
-        executeAndAssert(endpoint, 409, "Conflict");
-    }
-
-
-    @Test(groups = {"wso2.esb"},
-            description = "Test invoking server error http status endpoint with blocking call", enabled = true)
-    public void testServerErrorHttpStatusEndpoint() throws Exception {
-        URL endpoint = new URL(getProxyServiceURLHttp("ServerErrorEndpointProxy"));
-        executeAndAssert(endpoint, 500, "Internal_Server_Error");
-    }
+//
+//
+//    @Test(groups = {"wso2.esb"},
+//            description = "Test invoking bad request http status endpoint with blocking call", enabled = true)
+//    public void testBadRequestHttpStatusEndpoint() throws Exception {
+//        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
+//        URL endpoint = new URL(getProxyServiceURLHttp("BadRequestEndpointProxy-testBadRequestHttpStatusEndpoint"));
+//        executeAndAssert(endpoint, 400, "Bad_Request");
+//    }
+//
+//    @Test(groups = {"wso2.esb"},
+//            description = "Test invoking unauthorized http status endpoint with blocking call", enabled = true)
+//    public void testUnauthorizedHttpStatusEndpoint() throws Exception {
+//        URL endpoint = new URL(getProxyServiceURLHttp("UnauthorizedEndpointProxy"));
+//        executeAndAssert(endpoint, 401, "Unauthorized");
+//    }
+//
+//    @Test(groups = {"wso2.esb"},
+//            description = "Test invoking forbidden http status endpoint with blocking call", enabled = true)
+//    public void testForbiddenHttpStatusEndpoint() throws Exception {
+//        URL endpoint = new URL(getProxyServiceURLHttp("ForbiddenEndpointProxy"));
+//        executeAndAssert(endpoint, 403, "Forbidden");
+//    }
+//
+//    @Test(groups = {"wso2.esb"},
+//            description = "Test invoking not found http status endpoint with blocking call", enabled = true)
+//    public void testNotFoundHttpStatusEndpoint() throws Exception {
+//        URL endpoint = new URL(getProxyServiceURLHttp("NotFoundEndpointProxy"));
+//        executeAndAssert(endpoint, 404, "Not_Found");
+//    }
+//
+//    @Test(groups = {"wso2.esb"},
+//            description = "Test invoking conflict http status endpoint with blocking call", enabled = true)
+//    public void testConflictHttpStatusEndpoint() throws Exception {
+//        URL endpoint = new URL(getProxyServiceURLHttp("ConflictEndpointProxy"));
+//        executeAndAssert(endpoint, 409, "Conflict");
+//    }
+//
+//
+//    @Test(groups = {"wso2.esb"},
+//            description = "Test invoking server error http status endpoint with blocking call", enabled = true)
+//    public void testServerErrorHttpStatusEndpoint() throws Exception {
+//        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
+//        URL endpoint = new URL(getProxyServiceURLHttp("ServerErrorEndpointProxy"));
+//        executeAndAssert(endpoint, 500, "Internal_Server_Error");
+//    }
 
     @AfterClass(alwaysRun = true)
     public void destroy() throws Exception {

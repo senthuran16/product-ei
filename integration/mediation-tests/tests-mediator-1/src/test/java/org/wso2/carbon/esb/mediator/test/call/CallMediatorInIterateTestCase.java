@@ -22,6 +22,7 @@ import org.apache.axis2.AxisFault;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.wso2.carbon.esb.HackySynapseServiceNameSetter;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 
 import static org.testng.Assert.assertTrue;
@@ -34,8 +35,9 @@ public class CallMediatorInIterateTestCase extends ESBIntegrationTest {
         loadESBConfigurationFromClasspath("/artifacts/ESB/mediatorconfig/call/synapse11.xml");
     }
 
-    @Test(groups = {"wso2.esb"} , enabled = false)
+    @Test(groups = {"wso2.esb"})
     public void callMediatorInIterateTestCase() throws AxisFault {
+        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName());
 
         OMElement response =
                 axis2Client.sendSimpleStockQuoteRequest(getProxyServiceURLHttp("TestCallProxy"), null, "WSO2");

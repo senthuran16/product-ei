@@ -326,6 +326,14 @@
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
         </dependency>
+
+        <!-- Jaeger Tracing Client -->
+        <dependency>
+            <groupId>org.wso2.orbit.io.jaeger</groupId>
+            <artifactId>jaegerclient</artifactId>
+            <version>0.32.0.wso2v2</version>
+        </dependency>
+
     </dependencies>
 
 </project>

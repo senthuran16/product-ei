@@ -25,6 +25,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
 import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
+import org.wso2.carbon.esb.HackySynapseServiceNameSetter;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 import org.wso2.esb.integration.common.utils.ESBTestConstant;
 import org.wso2.esb.integration.common.utils.servers.axis2.SampleAxis2Server;
@@ -82,6 +83,7 @@ public class CallMediatorLoadBalanceFailoverTest extends ESBIntegrationTest {
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     @Test(groups = "wso2.esb", description = "Test sending request to Load balanced Endpoint")
     public void testCallForLoadBalanceFailover() throws IOException, InterruptedException {
+        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName());
 
         OMElement response = axis2Client.sendSimpleStockQuoteRequest(getProxyServiceURLHttp("CallLoadBalance"),
                 null, "WSO2");

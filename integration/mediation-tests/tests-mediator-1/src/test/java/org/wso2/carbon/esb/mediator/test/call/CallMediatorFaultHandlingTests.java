@@ -20,6 +20,7 @@ import org.apache.axiom.om.OMElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.wso2.carbon.esb.HackySynapseServiceNameSetter;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 
@@ -33,94 +34,102 @@ public class CallMediatorFaultHandlingTests extends ESBIntegrationTest {
         loadESBConfigurationFromClasspath("/artifacts/ESB/mediatorconfig/call/faultHandlingTests.xml");
     }
 
-    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
-                                             "Scenario - Proxy Service Inline InSequence Inline Fault Sequence")
-    public void testProxyInlineInSequenceInlineFaultSequence() throws Exception {
+//    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
+//                                             "Scenario - Proxy Service Inline InSequence Inline Fault Sequence")
+//    public void testProxyInlineInSequenceInlineFaultSequence() throws Exception {
+//        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
+//
+//        OMElement response =
+//                axis2Client.sendSimpleStockQuoteRequest(
+//                        "http://localhost:8480/services/InlineInSeqInlineFaultSeqProxy", null, "IBM");
+//
+//        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
+//
+//    }
+//
+//    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
+//                                             "Scenario - Proxy Service Target InSequence Inline Fault Sequence")
+//    public void testProxyTargetInSequenceInlineFaultSequence() throws Exception {
+//        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
+//
+//        OMElement response =
+//                axis2Client.sendSimpleStockQuoteRequest(
+//                        "http://localhost:8480/services/TargetInSeqInlineFaultSeqProxy", null, "IBM");
+//
+//        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
+//
+//    }
+//
+//    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
+//                                             "Scenario - Proxy Service Target InSequence Target Fault Sequence")
+//    public void testProxyTargetInSequenceTargetFaultSequence() throws Exception {
+//        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
+//
+//        OMElement response =
+//                axis2Client.sendSimpleStockQuoteRequest(
+//                        "http://localhost:8480/services/TargetInSeqTargetFaultSeqProxy", null, "IBM");
+//
+//        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
+//
+//    }
+//
+//    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
+//                                             "Scenario - Proxy Service Inline InSequence Target Fault Sequence")
+//    public void testProxyInlineInSequenceTargetFaultSequence() throws Exception {
+//        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
+//
+//        OMElement response =
+//                axis2Client.sendSimpleStockQuoteRequest(
+//                        "http://localhost:8480/services/InlineInSeqTargetFaultSeqProxy", null, "IBM");
+//
+//        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
+//
+//    }
+//
+//
+//    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
+//                                             "Scenario - API Inline InSequence Inline Fault Sequence")
+//    public void testAPIInlineInSequenceInlineFaultSequence() throws Exception {
+//        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
+//
+//        OMElement response =
+//                axis2Client.sendSimpleStockQuoteRequest(
+//                        "http://localhost:8480/callFaultTest/InlineInSeqInlineFaultSeq", null, "IBM");
+//
+//        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
+//
+//    }
 
-        OMElement response =
-                axis2Client.sendSimpleStockQuoteRequest(
-                        "http://localhost:8480/services/InlineInSeqInlineFaultSeqProxy", null, "IBM");
+//    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
+//                                             "Scenario - API Inline InSequence Target Fault Sequence")
+//    public void testAPIInlineInSequenceTargetFaultSequence() throws Exception {
+//        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
+//
+//        OMElement response =
+//                axis2Client.sendSimpleStockQuoteRequest(
+//                        "http://localhost:8480/callFaultTest/InlineInSeqTargetFaultSeq", null, "IBM");
+//
+//        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
+//
+//    }
 
-        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
-
-    }
-
-    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
-                                             "Scenario - Proxy Service Target InSequence Inline Fault Sequence")
-    public void testProxyTargetInSequenceInlineFaultSequence() throws Exception {
-
-        OMElement response =
-                axis2Client.sendSimpleStockQuoteRequest(
-                        "http://localhost:8480/services/TargetInSeqInlineFaultSeqProxy", null, "IBM");
-
-        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
-
-    }
-
-    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
-                                             "Scenario - Proxy Service Target InSequence Target Fault Sequence")
-    public void testProxyTargetInSequenceTargetFaultSequence() throws Exception {
-
-        OMElement response =
-                axis2Client.sendSimpleStockQuoteRequest(
-                        "http://localhost:8480/services/TargetInSeqTargetFaultSeqProxy", null, "IBM");
-
-        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
-
-    }
-
-    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
-                                             "Scenario - Proxy Service Inline InSequence Target Fault Sequence")
-    public void testProxyInlineInSequenceTargetFaultSequence() throws Exception {
-
-        OMElement response =
-                axis2Client.sendSimpleStockQuoteRequest(
-                        "http://localhost:8480/services/InlineInSeqTargetFaultSeqProxy", null, "IBM");
-
-        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
-
-    }
-
-
-    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
-                                             "Scenario - API Inline InSequence Inline Fault Sequence")
-    public void testAPIInlineInSequenceInlineFaultSequence() throws Exception {
-
-        OMElement response =
-                axis2Client.sendSimpleStockQuoteRequest(
-                        "http://localhost:8480/callFaultTest/InlineInSeqInlineFaultSeq", null, "IBM");
-
-        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
-
-    }
-
-    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
-                                             "Scenario - API Inline InSequence Target Fault Sequence")
-    public void testAPIInlineInSequenceTargetFaultSequence() throws Exception {
-
-        OMElement response =
-                axis2Client.sendSimpleStockQuoteRequest(
-                        "http://localhost:8480/callFaultTest/InlineInSeqTargetFaultSeq", null, "IBM");
-
-        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
-
-    }
-
-    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
-                                             "Scenario - API Target InSequence Target Fault Sequence")
-    public void testAPITargetInSequenceTargetFaultSequence() throws Exception {
-
-        OMElement response =
-                axis2Client.sendSimpleStockQuoteRequest(
-                        "http://localhost:8480/callFaultTest/TargetInSeqTargetFaultSeq", null, "IBM");
-
-        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
-
-    }
-
+//    @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
+//                                             "Scenario - API Target InSequence Target Fault Sequence")
+//    public void testAPITargetInSequenceTargetFaultSequence() throws Exception {
+//        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
+//
+//        OMElement response =
+//                axis2Client.sendSimpleStockQuoteRequest(
+//                        "http://localhost:8480/callFaultTest/TargetInSeqTargetFaultSeq", null, "IBM");
+//
+//        assertTrue(response.toString().contains("Failure"), "Fault: Fault Sequence is not invoked");
+//
+//    }
+//
     @Test(groups = "wso2.esb", description = "Check whether Fault sequence is properly working for Call mediator: " +
                                              "Scenario - API Target InSequence Inline Fault Sequence")
     public void testAPITargetInSequenceInlineFaultSequence() throws Exception {
+        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName() + "-" + new Throwable().getStackTrace()[0].getMethodName());
 
         OMElement response =
                 axis2Client.sendSimpleStockQuoteRequest(

@@ -24,6 +24,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
 import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
+import org.wso2.carbon.esb.HackySynapseServiceNameSetter;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 import org.wso2.esb.integration.common.utils.ESBTestConstant;
 import org.wso2.esb.integration.common.utils.servers.axis2.SampleAxis2Server;
@@ -50,7 +51,7 @@ public class CallMediatorBlockingLoadBalanceFailoverTest extends ESBIntegrationT
         axis2Server2.deployService(SampleAxis2Server.LB_SERVICE_2);
         axis2Server2.start();
 
-        loadESBConfigurationFromClasspath("artifacts/ESB/mediatorconfig/call/loadBalanceCallBlockingTestProxy.xml");
+        loadESBConfigurationFromClasspath("artifacts/ESB/mediatorconfig/call/CallMediatorBlockingLoadBalanceFailoverTest.xml");
 
         // Test weather all the axis2 servers are up and running
         OMElement response = axis2Client
@@ -83,6 +84,7 @@ public class CallMediatorBlockingLoadBalanceFailoverTest extends ESBIntegrationT
     @Test(groups = "wso2.esb",
           description = "Test sending request to Load balanced Endpoint")
     public void testCallBlockingForLoadBalanceFailover() throws IOException, InterruptedException {
+        HackySynapseServiceNameSetter.setSynapseServiceName(this.getClass().getSimpleName());
 
         OMElement response = axis2Client
                 .sendSimpleStockQuoteRequest(getProxyServiceURLHttp("CallBlockingLoadBalance"), null, "WSO2");

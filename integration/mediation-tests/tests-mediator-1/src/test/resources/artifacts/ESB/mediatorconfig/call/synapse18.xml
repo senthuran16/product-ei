@@ -68,6 +68,9 @@ STATE = IN SEQ S2
             <property name="STATE" value="SEQ1 S1"/>
         </log>
         <sequence key="SEQ2"/>
+
+
+
         <log level="custom">
             <property name="STATE" value="SEQ1 S2"/>
         </log>
