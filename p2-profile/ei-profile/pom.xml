@@ -23,7 +23,7 @@
     <parent>
         <artifactId>p2-profile</artifactId>
         <groupId>org.wso2.ei</groupId>
-        <version>6.5.0</version>
+        <version>6.6.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -104,9 +104,6 @@
                                     org.wso2.carbon.mediation:org.apache.synapse.transport.vfs.feature:${carbon.mediation.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon.mediation:org.apache.synapse.transport.vfs.smb.feature:${carbon.mediation.version}
-                                </featureArtifactDef>
-                                <featureArtifactDef>
                                     org.wso2.carbon.mediation:org.wso2.carbon.application.deployer.synapse.feature:${carbon.mediation.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
@@ -174,6 +171,9 @@
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon.mediation:org.wso2.carbon.mediator.datamapper.engine.feature:${carbon.mediation.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon.mediation:org.wso2.carbon.mediator.kerberos.feature:${carbon.mediation.version}
                                 </featureArtifactDef>
 
                                 <!--2 Carbon-Kernel-->
@@ -315,7 +315,7 @@
                                     org.wso2.carbon.deployment:org.wso2.carbon.webapp.mgt.server.feature:${carbon.deployment.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon.deployment:org.wso2.carbon.as.runtimes.cxf.feature:${carbon.deployment.version}
+                                    org.wso2.carbon.deployment:org.wso2.carbon.as.runtimes.cxf3.feature:${carbon.deployment.version}
                                 </featureArtifactDef>
                                 <!--8 Carbon-MultiTenancy-->
                                 <featureArtifactDef>
@@ -490,6 +490,10 @@
                                     <version>${carbon.mediation.version}</version>
                                 </feature>
                                 <feature>
+                                    <id>org.wso2.carbon.mediator.kerberos.feature.group</id>
+                                    <version>${carbon.mediation.version}</version>
+                                </feature>
+                                <feature>
                                     <id>org.wso2.carbon.mediation.configadmin.feature.group</id>
                                     <version>${carbon.mediation.version}</version>
                                 </feature>
@@ -527,10 +531,6 @@
                                 </feature>
                                 <feature>
                                     <id>org.apache.synapse.transport.vfs.feature.group</id>
-                                    <version>${carbon.mediation.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.apache.synapse.transport.vfs.smb.feature.group</id>
                                     <version>${carbon.mediation.version}</version>
                                 </feature>
                                 <feature>
@@ -729,7 +729,7 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.webapp.mgt.server.feature.group</id>
-                                    <id>org.wso2.carbon.as.runtimes.cxf.feature.group</id>
+                                    <id>org.wso2.carbon.as.runtimes.cxf3.feature.group</id>
                                     <version>${carbon.deployment.version}</version>
                                 </feature>
 
